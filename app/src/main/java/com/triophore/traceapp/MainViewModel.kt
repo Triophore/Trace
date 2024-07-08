@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Environment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.triophore.traceapp.SineWave.getCosineWave
 import com.triophore.traceapp.SineWave.getSineWave
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -34,6 +35,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             while (true) {
                 delay(1.seconds)
                 _plotValues.tryEmit(getSineWave())
+                delay(1.seconds)
+                _plotValues.tryEmit(getCosineWave())
             }
         }
     }
