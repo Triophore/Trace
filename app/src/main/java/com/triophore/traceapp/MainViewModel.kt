@@ -5,8 +5,9 @@ import android.content.Context
 import android.os.Environment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.triophore.graph.SineWave.getSineWave
+import com.triophore.traceapp.SineWave.getSineWave
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.BufferOverflow
@@ -37,6 +38,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     fun createValues() {
         val pi = 3.14159
         var data = listOf<Double>()
