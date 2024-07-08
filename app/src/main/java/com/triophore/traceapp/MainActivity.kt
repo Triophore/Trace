@@ -6,6 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -15,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import com.triophore.trace.Trace
 import com.triophore.traceapp.ui.theme.TraceAppTheme
@@ -26,17 +30,17 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        //enableEdgeToEdge()
         setContent {
             TraceAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Trace(
-                        modifier = Modifier.clip(MaterialTheme.shapes.large),
+                        modifier = Modifier.height(100.dp).fillMaxWidth().clip(MaterialTheme.shapes.large),
                         verticalScale = 0.8f,
                         horizontalScale = 1,
                         sampleRate = 100.0,
                         data = viewModel.plotValues.collectAsState(initial = listOf()).value,
-                        backgroundColor = Color.Blue
+                        backgroundColor = Color.Gray
                     )
                 }
             }

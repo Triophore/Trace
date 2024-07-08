@@ -11,6 +11,7 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.keyframes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -54,32 +55,29 @@ fun Trace(
     backgroundColor: Color,
     gridColor: Color = Color.White,
     gridWidth: Float = 1.0f,
-    horizontalGridLines: Int = 4,
-    verticalGridLines: Int = 9
+    horizontalGridLines: Int = 0,
+    verticalGridLines: Int = 0
 ) {
-    val height = 100.dp
-    val width = 400.dp
-    val horizontalShift = 1 / ((horizontalScale * sampleRate))
-    var canvasSize = Size.Companion.Unspecified
-    var key by remember { mutableStateOf(false) }
-    key = data.size > 1
-    val overlayWidth: Dp by animateDpAsState(
-        if (!key) width else 0.dp,
-        keyframes {
-            durationMillis = horizontalScale * 1000
-        }, label = ""
-    )
-
-    Box(modifier = modifier.background(color = backgroundColor)) {
-        Box(
+    BoxWithConstraints(modifier = modifier.background(color = backgroundColor)) {
+        val horizontalShift = 1 / ((horizontalScale * sampleRate))
+        var canvasSize = Size.Companion.Unspecified
+        var key by remember { mutableStateOf(false) }
+        key = data.size > 1
+        val overlayWidth: Dp by animateDpAsState(
+            if (!key) maxWidth else 0.dp,
+            keyframes {
+                durationMillis = horizontalScale * 1000
+            }, label = ""
+        )
+        BoxWithConstraints(
             modifier = Modifier
-                .height(height)
-                .width(width),
+                .height(maxHeight)
+                .width(maxWidth),
             contentAlignment = Alignment.CenterEnd
         ) {
             Spacer(modifier = Modifier
-                .height(height)
-                .width(width)
+                .height(maxHeight)
+                .width(maxWidth)
                 .drawWithCache {
                     val path = generatePath(
                         data = data,
@@ -93,14 +91,14 @@ fun Trace(
                 })
             Box(
                 modifier = Modifier
-                    .height(height)
+                    .height(maxHeight)
                     .width(overlayWidth)
                     .background(color = backgroundColor)
             )
             Spacer(
                 modifier = Modifier
-                    .height(height)
-                    .width(width)
+                    .height(maxHeight)
+                    .width(maxWidth)
                     .drawWithCache {
                         val verticalSize = size.width / (verticalGridLines + 1)
                         val horizontalSize = size.height / (horizontalGridLines + 1)
