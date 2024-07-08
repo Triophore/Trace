@@ -1,5 +1,6 @@
 package com.triophore.traceapp
 
+import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -34,14 +36,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             TraceAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Trace(
-                        modifier = Modifier.height(100.dp).fillMaxWidth().clip(MaterialTheme.shapes.large),
-                        verticalScale = 0.8f,
-                        horizontalScale = 1,
-                        sampleRate = 100.0,
-                        data = viewModel.plotValues.collectAsState(initial = listOf()).value,
-                        backgroundColor = Color.Gray
-                    )
+                    Plotter(modifier = Modifier
+                        .height(100.dp)
+                        .fillMaxWidth()
+                        .padding(innerPadding)
+                        .clip(MaterialTheme.shapes.large),
+                        data = viewModel.plotValues.collectAsState(initial = listOf()).value)
                 }
             }
         }
@@ -50,17 +50,29 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
+fun Plotter(modifier: Modifier = Modifier, data: List<Double>) {
+    Trace(
+        modifier = modifier,
+        verticalScale = 0.8f,
+        horizontalScale = 1,
+        sampleRate = 100.0,
+        data = data,
+        backgroundColor = Color.Gray
     )
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun PlotterPreview() {
+    val viewModel = MainViewModel(application = Application())
     TraceAppTheme {
-        Greeting("Android")
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            Plotter(modifier = Modifier
+                .height(100.dp)
+                .fillMaxWidth()
+                .padding(innerPadding)
+                .clip(MaterialTheme.shapes.large),
+                data = viewModel.plotValues.collectAsState(initial = listOf()).value)
+        }
     }
 }
