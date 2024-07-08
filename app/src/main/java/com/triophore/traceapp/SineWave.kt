@@ -1,5 +1,7 @@
 package com.triophore.traceapp
 
+import kotlin.math.pow
+
 object SineWave {
     fun getSineWave(): List<Double> {
         return listOf<Double>(
@@ -104,5 +106,9 @@ object SineWave {
             -0.12533839358687754,
             -0.06279576326845208
         )
+    }
+
+    fun getCosineWave(): List<Double> {
+        return getSineWave().map { (1.0 - (it * it)).pow(0.5) }
     }
 }
