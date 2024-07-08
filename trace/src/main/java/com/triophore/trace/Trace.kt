@@ -60,7 +60,6 @@ fun Trace(
 ) {
     BoxWithConstraints(modifier = modifier.background(color = backgroundColor)) {
         val horizontalShift = 1 / ((horizontalScale * sampleRate))
-        var canvasSize = Size.Companion.Unspecified
         var key by remember { mutableStateOf(false) }
         key = data.size > 1
         val overlayWidth: Dp by animateDpAsState(
